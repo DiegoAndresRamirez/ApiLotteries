@@ -26,18 +26,19 @@ const fetchLotteryDataFromUrl = async (url) => {
         const firstH1 = $('.article h1').first().text().trim();
 
         const tablaLoteria = [];
-        $('.tabla_loterias tr').each((index, element) => {
+        $('#resultados_chances tr').each((index, element) => {
             const row = [];
             $(element).find('td').each((i, td) => {
                 let cellText = $(td).text().trim();
-                if (i === 1) {
+                if (i === 0) {
+                    // Formatear la fecha aquí, si es necesario
                     cellText = formatDate(cellText);
                 }
-                if (i === 1 || i === 2) {
-                    row.push(cellText);
-                }
+                // Solo agregar celdas que contengan datos relevantes
+                row.push(cellText);
             });
-            if (row.length) {
+            // Agregar solo filas con datos (excluir la cabecera)
+            if (row.length > 0 && index > 0) { // index > 0 para excluir la cabecera
                 tablaLoteria.push(row);
             }
         });
@@ -53,6 +54,7 @@ const fetchLotteryDataFromUrl = async (url) => {
         return { url, error: 'Failed to fetch data' };
     }
 };
+
 
 // Función para obtener datos de todas las URLs
 const fetchAllLotteryData = async () => {
