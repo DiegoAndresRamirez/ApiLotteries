@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const lotteryRoutes = require('./src/routes/lotteryRoutes');
-const verifyToken = require('./src/middlewares/tokenMiddleware'); // Importar el middleware
+const verifyToken = require('./src/middlewares/tokenMiddleware'); // Asegúrate de que la ruta sea correcta
 
 const app = express();
 const port = process.env.PORT || 3000;
