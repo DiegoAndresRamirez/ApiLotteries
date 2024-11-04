@@ -28,18 +28,26 @@ const fetchLotteryDataFromUrl = async (url) => {
         const tablaLoteria = [];
         $('#resultados_chances tr').each((index, element) => {
             const row = [];
-            $(element).find('td').each((i, td) => {
-                let cellText = $(td).text().trim();
-                if (i === 0) {
-                    // Formatear la fecha aquí, si es necesario
-                    cellText = formatDate(cellText);
+            const cells = $(element).find('td');
+
+            // Verificamos cuántas celdas hay en la fila
+            if (cells.length === 2 || cells.length === 3) { // Solo aceptamos filas con 2 o 3 celdas
+                cells.each((i, td) => {
+                    let cellText = $(td).text().trim();
+                    if (cellText === 'NaN' || cellText === '') {
+                        cellText = 'Sin dato'; // Reemplaza NaN o celdas vacías con un mensaje
+                    }
+                    // Formateamos la fecha si es la primera celda
+                    if (i === 0 && cellText !== 'Sin dato') {
+                        cellText = formatDate(cellText);
+                    }
+                    row.push(cellText);
+                });
+
+                // Solo agregar filas que tengan datos válidos
+                if (row.length > 0) {
+                    tablaLoteria.push(row);
                 }
-                // Solo agregar celdas que contengan datos relevantes
-                row.push(cellText);
-            });
-            // Agregar solo filas con datos (excluir la cabecera)
-            if (row.length > 0 && index > 0) { // index > 0 para excluir la cabecera
-                tablaLoteria.push(row);
             }
         });
 
