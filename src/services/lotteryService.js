@@ -11,6 +11,11 @@ const formatDate = (dateString) => {
     return `${day}/${month}/${year}`;
 };
 
+const fetchLotteryDataByName = async (lotteryName) => {
+    const url = `https://loteriasdehoy.co/${lotteryName}`;
+    return await fetchLotteryDataFromUrl(url);
+};
+
 // Extraer datos de una URL
 const fetchLotteryDataFromUrl = async (url) => {
     try {
@@ -54,4 +59,4 @@ const fetchAllLotteryData = async () => {
     return await Promise.all(lotteryUrls.map(fetchLotteryDataFromUrl));
 };
 
-module.exports = { fetchAllLotteryData };
+module.exports = { fetchAllLotteryData, fetchLotteryDataByName };
